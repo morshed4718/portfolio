@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leo MorshEd — AI Automation Expert</title>
+<meta name="description" content="Leo MorshEd helps businesses automate workflows, build AI chatbots, and set up lead-gen pipelines using Make.com, n8n, Clay, and GPT-4. Based in Bangladesh, working worldwide.">
+<meta property="og:title" content="Leo MorshEd — AI Automation Expert">
+<meta property="og:description" content="I build automation systems that run businesses while you sleep. AI chatbots, workflow automation, lead generation — done right.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f0d'/%3E%3Ccircle cx='16' cy='32' r='6' fill='%23baff29'/%3E%3Ccircle cx='48' cy='16' r='6' fill='%2300d4ff'/%3E%3Ccircle cx='48' cy='48' r='6' fill='%2300d4ff'/%3E%3Cpath d='M21 30 L43 18 M21 34 L43 46' stroke='%233a4a44' stroke-width='2.5' fill='none'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0f0d;
+    --surface: #101613;
+    --surface2: #161e1a;
+    --border: rgba(186,255,41,0.13);
+    --accent: #baff29;
+    --accent2: #00d4ff;
+    --glow: rgba(186,255,41,0.18);
+    --text: #d7e4de;
+    --muted: #6f8279;
+    --bright: #f3fff0;
+    --warn: #ff9f43;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  h1, h2, h3 { font-family: 'Sora', sans-serif; }
+
+  a { color: inherit; }
+
+  /* ── CUSTOM CURSOR DOT (signature motif: a "live node" follows the pointer) ── */
+  #cursor-node {
+    position: fixed;
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, border-color 0.2s, background 0.2s;
+    mix-blend-mode: difference;
+  }
+  #cursor-node::after {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  @media (hover: none), (max-width: 768px) { #cursor-node { display: none; } }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,15,13,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--bright);
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links { display: flex; gap: 1.75rem; list-style: none; align-items: center; }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--bright); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: #0a0f0d !important;
+    padding: 0.5rem 1.1rem;
+    border-radius: 6px;
+    font-weight: 700 !important;
+    transition: background 0.2s, transform 0.15s !important;
+  }
+
+  .nav-cta:hover { background: #d4ff66 !important; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 7rem 2rem 4rem;
+    overflow: hidden;
+  }
+
+  .hero-circuit {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.55;
+    mask-image: radial-gradient(ellipse 75% 65% at 50% 30%, black 35%, transparent 100%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -200px; left: 50%;
+    transform: translateX(-50%);
+    width: 800px; height: 600px;
+    background: radial-gradient(ellipse, rgba(186,255,41,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-inner { position: relative; max-width: 1100px; margin: 0 auto; width: 100%; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(186,255,41,0.08);
+    border: 1px solid rgba(186,255,41,0.3);
+    border-radius: 100px;
+    padding: 0.35rem 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    letter-spacing: 0.04em;
+  }
+
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-title {
+    font-size: clamp(2.6rem, 6.5vw, 5.2rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--bright);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title .line2 {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub { font-size: 1.1rem; color: var(--muted); max-width: 560px; line-height: 1.75; margin-bottom: 2.5rem; }
+  .hero-sub strong { color: var(--text); font-weight: 600; }
+
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent);
+    color: #0a0f0d;
+    padding: 0.875rem 1.75rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 0 30px rgba(186,255,41,0.25);
+  }
+
+  .btn-primary:hover { background: #d4ff66; transform: translateY(-2px); box-shadow: 0 0 40px rgba(186,255,41,0.45); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--text);
+    padding: 0.875rem 1.75rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover { background: var(--surface); border-color: rgba(186,255,41,0.3); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .stat-num { font-size: 2rem; font-weight: 700; color: var(--bright); font-family: 'JetBrains Mono', monospace; letter-spacing: -0.04em; }
+  .stat-num span { color: var(--accent); }
+  .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  /* ── SECTION BASE ── */
+  section { position: relative; padding: 6rem 2rem; }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); }
+
+  .section-title { font-size: clamp(1.8rem, 4vw, 2.65rem); font-weight: 700; color: var(--bright); letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1rem; }
+  .section-desc { font-size: 1rem; color: var(--muted); max-width: 540px; line-height: 1.75; margin-bottom: 3.5rem; }
+
+  /* ── ABOUT ── */
+  #about { background: var(--surface); }
+
+  .about-wrap {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .about-photo {
+    width: 220px;
+    height: 220px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(186,255,41,0.15), rgba(0,212,255,0.15));
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-align: center;
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+  /* EDIT: replace this block with <img src="your-photo.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:18px;"> once you have a headshot */
+  .about-photo .ph-icon { font-size: 3rem; margin-bottom: 0.5rem; display: block; }
+
+  .about-bio h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700; color: var(--bright); letter-spacing: -0.03em; margin-bottom: 1.25rem; }
+  .about-bio p { color: var(--muted); font-size: 0.95rem; line-height: 1.85; margin-bottom: 1rem; }
+  .about-bio p strong { color: var(--text); font-weight: 600; }
+
+  .about-tags { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .about-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 5px;
+    background: rgba(186,255,41,0.08);
+    border: 1px solid var(--border);
+    color: var(--accent);
+  }
+
+  @media (max-width: 700px) { .about-wrap { grid-template-columns: 1fr; } .about-photo { width: 140px; height: 140px; } }
+
+  /* ── SERVICES ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .service-card { background: var(--bg); padding: 2.25rem; transition: background 0.2s; position: relative; }
+  .service-card:hover { background: var(--surface2); }
+
+  .service-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 1.25rem; }
+  .icon-lime { background: rgba(186,255,41,0.12); }
+  .icon-cyan { background: rgba(0,212,255,0.12); }
+  .icon-warn { background: rgba(255,159,67,0.12); }
+
+  .service-card h3 { font-size: 1.05rem; font-weight: 600; color: var(--bright); margin-bottom: 0.6rem; letter-spacing: -0.02em; }
+  .service-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.7; }
+
+  .service-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(186,255,41,0.08);
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── TOOLS ── */
+  .tools-header { margin-bottom: 3rem; }
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
+
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .tool-card:hover { border-color: rgba(186,255,41,0.4); background: var(--surface2); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(186,255,41,0.08); }
+  .tool-emoji { font-size: 2rem; margin-bottom: 0.75rem; }
+  .tool-name { font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
+  .tool-desc { font-size: 0.73rem; color: var(--muted); line-height: 1.5; }
+
+  /* ── PORTFOLIO ── */
+  #portfolio { background: var(--surface); }
+  .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+
+  .portfolio-card { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: all 0.25s; }
+  .portfolio-card:hover { border-color: rgba(186,255,41,0.4); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+
+  .portfolio-thumb { height: 140px; display: flex; align-items: center; justify-content: center; font-size: 3rem; position: relative; overflow: hidden; }
+  .thumb-lime { background: linear-gradient(135deg, rgba(186,255,41,0.18), rgba(0,212,255,0.12)); }
+  .thumb-cyan { background: linear-gradient(135deg, rgba(0,212,255,0.18), rgba(186,255,41,0.1)); }
+  .thumb-warn { background: linear-gradient(135deg, rgba(255,159,67,0.18), rgba(186,255,41,0.1)); }
+
+  .portfolio-body { padding: 1.5rem; }
+  .portfolio-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .portfolio-body h3 { font-size: 1rem; font-weight: 600; color: var(--bright); margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .portfolio-body p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+
+  .portfolio-metric {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(186,255,41,0.06);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 0.85rem;
+    margin-bottom: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+  }
+  .portfolio-metric .m-before { color: var(--muted); text-decoration: line-through; }
+  .portfolio-metric .m-arrow { color: var(--accent); }
+  .portfolio-metric .m-after { color: var(--bright); font-weight: 600; }
+
+  .portfolio-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .ptag { font-size: 0.7rem; padding: 0.2rem 0.55rem; border-radius: 4px; background: rgba(111,130,121,0.08); border: 1px solid var(--border); color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+  /* ── VIDEO DEMO ── */
+  .video-placeholder {
+    margin-top: 2rem;
+    border: 1px dashed var(--border);
+    border-radius: 14px;
+    background: var(--bg);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .video-placeholder .vp-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .video-placeholder h4 { color: var(--bright); font-size: 1.05rem; margin-bottom: 0.5rem; }
+  .video-placeholder p { color: var(--muted); font-size: 0.85rem; max-width: 420px; margin: 0 auto; }
+  <!-- EDIT: once you have a Loom/YouTube link, replace this whole .video-placeholder div with an <iframe> embed -->
+
+  /* ── TESTIMONIALS ── */
+  .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+  .testi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.75rem;
+    position: relative;
+  }
+  .testi-quote-mark { font-family: 'Sora', sans-serif; font-size: 2.5rem; color: var(--accent); opacity: 0.4; line-height: 1; margin-bottom: 0.5rem; }
+  .testi-text { color: var(--text); font-size: 0.9rem; line-height: 1.75; margin-bottom: 1.25rem; }
+  .testi-person { display: flex; align-items: center; gap: 0.75rem; }
+  .testi-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #0a0f0d; font-size: 0.85rem; }
+  .testi-name { font-size: 0.85rem; font-weight: 600; color: var(--bright); }
+  .testi-role { font-size: 0.75rem; color: var(--muted); }
+
+  /* ── PRICING ── */
+  #pricing { background: var(--surface); }
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  .price-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.25rem 2rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .price-card.featured { border-color: var(--accent); box-shadow: 0 0 40px rgba(186,255,41,0.1); }
+  .price-badge {
+    position: absolute; top: -12px; right: 1.5rem;
+    background: var(--accent); color: #0a0f0d;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem; font-weight: 700;
+    padding: 0.3rem 0.7rem; border-radius: 100px;
+    letter-spacing: 0.04em;
+  }
+  .price-name { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .price-amount { font-size: 1.9rem; font-weight: 700; color: var(--bright); margin-bottom: 0.25rem; letter-spacing: -0.02em; }
+  .price-amount span { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+  .price-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.6; }
+  .price-features { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 2rem; flex-grow: 1; }
+  .price-features li { font-size: 0.85rem; color: var(--text); display: flex; gap: 0.6rem; align-items: flex-start; }
+  .price-features li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+  .price-cta {
+    display: block; text-align: center;
+    padding: 0.75rem; border-radius: 8px;
+    background: var(--surface2); color: var(--bright);
+    text-decoration: none; font-weight: 600; font-size: 0.88rem;
+    border: 1px solid var(--border); transition: all 0.2s;
+  }
+  .price-card.featured .price-cta { background: var(--accent); color: #0a0f0d; }
+  .price-cta:hover { transform: translateY(-2px); }
+  .pricing-note { font-size: 0.8rem; color: var(--muted); margin-top: 2rem; text-align: center; }
+  <!-- EDIT: swap these placeholder ৳ ranges for your real pricing whenever you're ready -->
+
+  /* ── PROCESS ── */
+  .process-steps { display: flex; flex-direction: column; gap: 0; position: relative; }
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    left: 23px; top: 12px; bottom: 12px; width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+    opacity: 0.35;
+  }
+  .process-step { display: flex; gap: 2rem; padding: 2rem 0; position: relative; }
+  .step-num {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--surface); border: 1px solid rgba(186,255,41,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent);
+    font-weight: 600; flex-shrink: 0; position: relative; z-index: 1;
+  }
+  .step-content h3 { font-size: 1.05rem; font-weight: 600; color: var(--bright); margin-bottom: 0.4rem; letter-spacing: -0.02em; padding-top: 0.6rem; }
+  .step-content p { font-size: 0.875rem; color: var(--muted); line-height: 1.7; max-width: 560px; }
+
+  /* ── FAQ ── */
+  .faq-list { display: flex; flex-direction: column; gap: 0.75rem; }
+  .faq-item { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .faq-q {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 1.5rem; cursor: pointer;
+    font-weight: 600; font-size: 0.95rem; color: var(--bright);
+    font-family: 'Sora', sans-serif;
+  }
+  .faq-q .faq-icon { color: var(--accent); font-size: 1.1rem; transition: transform 0.25s; flex-shrink: 0; margin-left: 1rem; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .faq-a-inner { padding: 0 1.5rem 1.25rem; color: var(--muted); font-size: 0.875rem; line-height: 1.75; }
+  .faq-item.open .faq-a { max-height: 300px; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--bg); }
+  .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .contact-info h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 700; color: var(--bright); letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 1rem; }
+  .contact-info p { color: var(--muted); font-size: 0.95rem; line-height: 1.75; margin-bottom: 2rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+  .clink { display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; padding: 0.75rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+  .clink:hover { color: var(--accent); border-color: rgba(186,255,41,0.3); }
+  .clink-icon { font-size: 1.1rem; }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group label { font-size: 0.8rem; font-weight: 500; color: var(--muted); letter-spacing: 0.02em; }
+  .form-group input, .form-group textarea, .form-group select {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 0.75rem 1rem; color: var(--text); font-family: 'Inter', sans-serif;
+    font-size: 0.9rem; outline: none; transition: border-color 0.2s; width: 100%;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(186,255,41,0.1); }
+  .form-group textarea { min-height: 130px; resize: vertical; }
+  .form-group select option { background: var(--surface); }
+
+  .btn-submit {
+    background: var(--accent); color: #0a0f0d; border: none; border-radius: 8px;
+    padding: 0.875rem 2rem; font-family: 'Sora', sans-serif; font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; transition: all 0.2s; box-shadow: 0 0 30px rgba(186,255,41,0.25); width: 100%;
+  }
+  .btn-submit:hover { background: #d4ff66; transform: translateY(-2px); box-shadow: 0 0 40px rgba(186,255,41,0.45); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* ── FOOTER ── */
+  footer { padding: 2rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .footer-logo { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--muted); }
+  .footer-logo span { color: var(--accent); }
+  .footer-copy { font-size: 0.8rem; color: var(--muted); }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── SUCCESS / ERROR MSG ── */
+  .form-msg { display: none; border-radius: 8px; padding: 1rem 1.25rem; font-size: 0.9rem; font-weight: 500; margin-top: 0.5rem; }
+  .form-msg.success { background: rgba(186,255,41,0.08); border: 1px solid rgba(186,255,41,0.3); color: var(--accent); }
+  .form-msg.error { background: rgba(255,159,67,0.08); border: 1px solid rgba(255,159,67,0.3); color: var(--warn); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero-stats { gap: 1.5rem; }
+    .contact-wrapper { grid-template-columns: 1fr; gap: 2rem; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor-node"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">leo<span>.</span>morshed</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <svg class="hero-circuit" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#baff29" stroke-opacity="0.18" stroke-width="1.5" fill="none">
+      <path d="M0 620 H180 L230 570 H460 L510 620 H760"/>
+      <path d="M0 720 H120 L160 680 H400 L450 730 H700 L740 690 H1000"/>
+      <path d="M1200 600 H980 L930 650 H700"/>
+      <path d="M1200 680 H1040 L1000 640 H780"/>
+    </g>
+    <g fill="#baff29">
+      <circle cx="230" cy="570" r="4"><animate attributeName="opacity" values="1;0.2;1" dur="2.4s" repeatCount="indefinite"/></circle>
+      <circle cx="510" cy="620" r="4"><animate attributeName="opacity" values="0.2;1;0.2" dur="2.1s" repeatCount="indefinite"/></circle>
+      <circle cx="930" cy="650" r="4"><animate attributeName="opacity" values="1;0.3;1" dur="2.8s" repeatCount="indefinite"/></circle>
+    </g>
+    <g fill="#00d4ff">
+      <circle cx="160" cy="680" r="4"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.9s" repeatCount="indefinite"/></circle>
+      <circle cx="1000" cy="640" r="4"><animate attributeName="opacity" values="1;0.2;1" dur="2.5s" repeatCount="indefinite"/></circle>
+    </g>
+  </svg>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="badge-dot"></span> Available for new projects</div>
+    <h1 class="hero-title">
+      I build systems that<br>
+      <span class="line2">run your business for you.</span>
+    </h1>
+    <p class="hero-sub">
+      I'm <strong>Leo MorshEd</strong> — an AI automation specialist from Bangladesh.
+      I design workflows, chatbots, and lead-gen pipelines so the repetitive parts of
+      your business handle themselves while you focus on growth.
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">🚀 Start a Project</a>
+      <a href="#portfolio" class="btn-secondary">View My Work →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">10<span>+</span></div><div class="stat-label">Tools Mastered</div></div>
+      <div class="stat-item"><div class="stat-num">24<span>h</span></div><div class="stat-label">Avg Response</div></div>
+      <div class="stat-item"><div class="stat-num">100<span>%</span></div><div class="stat-label">Remote-Ready</div></div>
+      <div class="stat-item"><div class="stat-num">BD<span> 🇧🇩</span></div><div class="stat-label">Based in Bangladesh</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-eyebrow">Who's Behind This</div>
+    <h2 class="section-title fade-up">About Leo</h2>
+    <div class="about-wrap fade-up">
+      <div class="about-photo">
+        <!-- EDIT: drop in your real headshot — replace this div's content with an <img> tag -->
+        <span class="ph-icon">🧑‍💻</span>
+        Your photo goes here
+      </div>
+      <div class="about-bio">
+        <h2>Hi, I'm Leo MorshEd.</h2>
+        <p>
+          <!-- EDIT: replace this paragraph with your real story — background, how long you've been doing this, why automation -->
+          I'm an <strong>AI automation specialist</strong> based in Bangladesh, working with
+          businesses and freelancers worldwide. I got into automation after watching teams
+          waste hours every week on tasks a workflow could handle in seconds — copy-pasting
+          leads, manually replying to the same FAQs, chasing follow-ups that fall through the cracks.
+        </p>
+        <p>
+          Since then I've focused on one thing: building automation systems that actually
+          hold up in production, not just demo well. I work hands-on with <strong>Make.com, n8n,
+          Clay, Apollo.io,</strong> and GPT-4 to turn manual workflows into systems that run
+          themselves — so my clients get their time back.
+        </p>
+        <div class="about-tags">
+          <span class="about-tag">AI Automation</span>
+          <span class="about-tag">No-Code Workflows</span>
+          <span class="about-tag">Lead Generation</span>
+          <span class="about-tag">Chatbot Development</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-eyebrow">What I Do</div>
+    <h2 class="section-title fade-up">Services built for real results</h2>
+    <p class="section-desc fade-up">From solo freelancers to growing businesses — I deliver automation and AI solutions that actually work.</p>
+
+    <div class="services-grid fade-up">
+      <div class="service-card">
+        <div class="service-icon icon-lime">🤖</div>
+        <h3>AI Chatbot Building</h3>
+        <p>Custom AI chatbots for customer support, lead capture, and FAQ automation using no-code platforms and LLM APIs.</p>
+        <span class="service-tag">Freelance</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon icon-cyan">⚡</div>
+        <h3>Workflow Automation</h3>
+        <p>Automate repetitive tasks across your tools — CRM updates, email triggers, data syncs — using Make.com and n8n.</p>
+        <span class="service-tag">Agency</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon icon-warn">🎯</div>
+        <h3>Lead Generation Systems</h3>
+        <p>Build end-to-end B2B lead pipelines using Clay, Apollo.io, and Instantly.ai to fill your sales calendar automatically.</p>
+        <span class="service-tag">Agency</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon icon-lime">📧</div>
+        <h3>Email Marketing Automation</h3>
+        <p>Set up cold outreach sequences, follow-up automation, and inbox management that runs 24/7 without manual effort.</p>
+        <span class="service-tag">Agency</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon icon-cyan">🔗</div>
+        <h3>CRM Integration</h3>
+        <p>Connect your CRM to all your tools — auto-update contacts, log activities, and trigger actions based on deal stages.</p>
+        <span class="service-tag">Freelance</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon icon-warn">📊</div>
+        <h3>Data Scraping & Enrichment</h3>
+        <p>Pull targeted lead data from LinkedIn, Google Maps, and websites, then enrich with verified emails and company info.</p>
+        <span class="service-tag">Freelance</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="container">
+    <div class="tools-header">
+      <div class="section-eyebrow">My Stack</div>
+      <h2 class="section-title fade-up">Tools I work with daily</h2>
+      <p class="section-desc fade-up">Industry-standard no-code and AI tools — no fluff, just the platforms that deliver.</p>
+    </div>
+    <div class="tools-grid fade-up">
+      <div class="tool-card"><div class="tool-emoji">🔄</div><div class="tool-name">n8n</div><div class="tool-desc">Open-source automation</div></div>
+      <div class="tool-card"><div class="tool-emoji">🗣️</div><div class="tool-name">Voiceflow</div><div class="tool-desc">Conversational AI agents</div></div>
+      <div class="tool-card"><div class="tool-emoji">🤖</div><div class="tool-name">OpenAI</div><div class="tool-desc">GPT models & API</div></div>
+      <div class="tool-card"><div class="tool-emoji">🧠</div><div class="tool-name">Anthropic</div><div class="tool-desc">Claude models & API</div></div>
+      <div class="tool-card"><div class="tool-emoji">🤗</div><div class="tool-name">Hugging Face</div><div class="tool-desc">Open-source AI models</div></div>
+      <div class="tool-card"><div class="tool-emoji">✨</div><div class="tool-name">Google Gemini</div><div class="tool-desc">Multimodal AI models</div></div>
+      <div class="tool-card"><div class="tool-emoji">🦙</div><div class="tool-name">LLaMA</div><div class="tool-desc">Open-weight LLMs</div></div>
+      <div class="tool-card"><div class="tool-emoji">📮</div><div class="tool-name">Postman</div><div class="tool-desc">API testing & docs</div></div>
+      <div class="tool-card"><div class="tool-emoji">🔌</div><div class="tool-name">REST API</div><div class="tool-desc">System integrations</div></div>
+      <div class="tool-card"><div class="tool-emoji">📄</div><div class="tool-name">JSON</div><div class="tool-desc">Data structuring</div></div>
+      <div class="tool-card"><div class="tool-emoji">🐙</div><div class="tool-name">GitHub</div><div class="tool-desc">Version control & hosting</div></div>
+      <div class="tool-card"><div class="tool-emoji">🍃</div><div class="tool-name">MongoDB</div><div class="tool-desc">NoSQL database</div></div>
+      <div class="tool-card"><div class="tool-emoji">📅</div><div class="tool-name">Google Calendar</div><div class="tool-desc">Scheduling automation</div></div>
+      <div class="tool-card"><div class="tool-emoji">✅</div><div class="tool-name">Google Tasks</div><div class="tool-desc">Task automation</div></div>
+      <div class="tool-card"><div class="tool-emoji">🧮</div><div class="tool-name">Vector DB</div><div class="tool-desc">Semantic search & memory</div></div>
+      <div class="tool-card"><div class="tool-emoji">🎨</div><div class="tool-name">ChromaDB</div><div class="tool-desc">Vector embeddings store</div></div>
+      <div class="tool-card"><div class="tool-emoji">⚡</div><div class="tool-name">FAISS</div><div class="tool-desc">Fast similarity search</div></div>
+      <div class="tool-card"><div class="tool-emoji">📧</div><div class="tool-name">Gmail</div><div class="tool-desc">Email automation</div></div>
+      <div class="tool-card"><div class="tool-emoji">⚙️</div><div class="tool-name">Zapier</div><div class="tool-desc">App integrations</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="container">
+    <div class="section-eyebrow">My Work</div>
+    <h2 class="section-title fade-up">Sample Projects</h2>
+    <p class="section-desc fade-up">Real automation systems built for real business problems — with the numbers to prove it.</p>
+
+    <div class="portfolio-grid fade-up">
+      <div class="portfolio-card">
+        <div class="portfolio-thumb thumb-lime">🤖</div>
+        <div class="portfolio-body">
+          <div class="portfolio-label">AI Chatbot</div>
+          <h3>Customer Support Bot</h3>
+          <p>Built a 24/7 AI chatbot for an e-commerce store that handles support tickets automatically.</p>
+          <div class="portfolio-metric"><span class="m-before">4hr response</span><span class="m-arrow">→</span><span class="m-after">30 sec</span></div>
+          <div class="portfolio-tags"><span class="ptag">Make.com</span><span class="ptag">OpenAI</span><span class="ptag">Airtable</span></div>
+        </div>
+      </div>
+      <div class="portfolio-card">
+        <div class="portfolio-thumb thumb-cyan">🎯</div>
+        <div class="portfolio-body">
+          <div class="portfolio-label">Lead Generation</div>
+          <h3>B2B Lead Pipeline</h3>
+          <p>Designed an automated pipeline that scrapes, enriches, and sends personalized cold emails — fully on autopilot.</p>
+          <div class="portfolio-metric"><span class="m-before">~50 leads/wk manual</span><span class="m-arrow">→</span><span class="m-after">500+ leads/wk auto</span></div>
+          <div class="portfolio-tags"><span class="ptag">Clay</span><span class="ptag">Apollo.io</span><span class="ptag">Instantly</span></div>
+        </div>
+      </div>
+      <div class="portfolio-card">
+        <div class="portfolio-thumb thumb-warn">⚡</div>
+        <div class="portfolio-body">
+          <div class="portfolio-label">Workflow Automation</div>
+          <h3>Agency Ops Automation</h3>
+          <p>Automated a marketing agency's onboarding flow — from contract signing to project setup and invoicing.</p>
+          <div class="portfolio-metric"><span class="m-before">~3hrs/client manual</span><span class="m-arrow">→</span><span class="m-after">~12 min auto</span></div>
+          <div class="portfolio-tags"><span class="ptag">Make.com</span><span class="ptag">n8n</span><span class="ptag">Notion</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIDEO DEMO -->
+    <div class="video-placeholder fade-up">
+      <div class="vp-icon">▶️</div>
+      <h4>Demo video coming soon</h4>
+      <p>A walkthrough of a live automation in action will go here. Send me a Loom or YouTube link and I'll embed it directly on the page.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-eyebrow">Client Words</div>
+    <h2 class="section-title fade-up">What clients say</h2>
+    <p class="section-desc fade-up">Placeholder reviews for now — swap these out for real client quotes whenever you have them.</p>
+
+    <div class="testi-grid fade-up">
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">Leo turned a process that used to eat half my day into something that just... runs. I haven't touched a spreadsheet for lead tracking in weeks.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">SK</div>
+          <div><div class="testi-name">Sarah K.</div><div class="testi-role">E-commerce Founder, USA</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">Communication was clear from day one, and the automation he built has held up perfectly under real usage — no surprise breakages.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">RA</div>
+          <div><div class="testi-name">Rafiq A.</div><div class="testi-role">Agency Owner, UK</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">We went from manually qualifying every lead to a pipeline that does it for us. Worth every taka.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">MN</div>
+          <div><div class="testi-name">Mahin N.</div><div class="testi-role">SaaS Co-founder, Bangladesh</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-eyebrow">Investment</div>
+    <h2 class="section-title fade-up">Packages that scale with you</h2>
+    <p class="section-desc fade-up">Placeholder pricing — tell me your real numbers and I'll swap these in.</p>
+
+    <div class="pricing-grid fade-up">
+      <div class="price-card">
+        <div class="price-name">Starter</div>
+        <div class="price-amount">৳5,000<span> – ৳10,000</span></div>
+        <div class="price-desc">For a single, well-defined automation — one workflow, one tool stack.</div>
+        <ul class="price-features">
+          <li>1 automated workflow</li>
+          <li>Up to 2 connected tools</li>
+          <li>Setup + 7-day support</li>
+          <li>Video walkthrough</li>
+        </ul>
+        <a href="#contact" class="price-cta">Get Started</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">Most Popular</div>
+        <div class="price-name">Growth</div>
+        <div class="price-amount">৳15,000<span> – ৳30,000</span></div>
+        <div class="price-desc">For multi-step systems — chatbots, lead pipelines, CRM integrations.</div>
+        <ul class="price-features">
+          <li>Full pipeline (3-5 steps)</li>
+          <li>Up to 5 connected tools</li>
+          <li>AI chatbot or lead-gen system</li>
+          <li>14-day support + tweaks</li>
+          <li>Documentation included</li>
+        </ul>
+        <a href="#contact" class="price-cta">Get Started</a>
+      </div>
+      <div class="price-card">
+        <div class="price-name">Custom</div>
+        <div class="price-amount">Let's Talk</div>
+        <div class="price-desc">For agencies and businesses needing ongoing automation work or complex systems.</div>
+        <ul class="price-features">
+          <li>Unlimited workflows</li>
+          <li>Custom AI integrations</li>
+          <li>Priority support</li>
+          <li>Monthly retainer available</li>
+        </ul>
+        <a href="#contact" class="price-cta">Book a Call</a>
+      </div>
+    </div>
+    <p class="pricing-note">Prices are approximate starting ranges — final quote depends on project scope, discussed on the discovery call.</p>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <div class="section-eyebrow">How It Works</div>
+    <h2 class="section-title fade-up">From inquiry to live automation</h2>
+    <p class="section-desc fade-up">A clear, collaborative process so you always know what's happening.</p>
+
+    <div class="process-steps fade-up">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <div class="step-content"><h3>Discovery Call</h3><p>We talk about your business, your biggest time-wasters, and which tasks you want automated. I ask the right questions to scope the project accurately.</p></div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <div class="step-content"><h3>Proposal & Planning</h3><p>I send a clear proposal with timeline, tools, deliverables, and pricing. No hidden fees, no surprises.</p></div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <div class="step-content"><h3>Build & Test</h3><p>I build your automation, test every edge case, and share a demo video or live walkthrough before delivery.</p></div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">04</div>
+        <div class="step-content"><h3>Handoff & Support</h3><p>You get full access, documentation, and a video walkthrough. I stay available for 7 days post-delivery for any tweaks.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-eyebrow">Common Questions</div>
+    <h2 class="section-title fade-up">Frequently asked questions</h2>
+    <p class="section-desc fade-up">Answers to what people usually ask before starting a project.</p>
+
+    <div class="faq-list fade-up">
+      <div class="faq-item">
+        <div class="faq-q">How much does a project usually cost?<span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">It depends on scope — a single workflow starts around ৳5,000, while full systems (chatbots, lead pipelines) run ৳15,000–30,000. See the Pricing section above, or book a discovery call for an exact quote.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How long does a typical build take?<span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Simple automations: 2-4 days. Multi-step systems like chatbots or lead-gen pipelines: 1-2 weeks, depending on how many tools need to connect.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What if the automation breaks after delivery?<span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Every project includes 7-14 days of free support after handoff. After that, I offer affordable monthly maintenance retainers if you want ongoing peace of mind.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do I need to already use Make.com, n8n, or other tools?<span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">No. I'll recommend the right stack for your needs and budget, and set everything up — including new accounts where needed.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How do payments work?<span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Typically 50% upfront to start, 50% on delivery. For larger custom projects we can break this into milestones.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-wrapper">
+      <div class="contact-info fade-up">
+        <div class="section-eyebrow">Get In Touch</div>
+        <h2>Let's build something<br>that runs itself.</h2>
+        <p>Ready to automate your business or need a freelance project done right? Send me a message and I'll get back to you within 24 hours.</p>
+        <div class="contact-links">
+          <a href="mailto:contact@automatewithleo.com" class="clink"><span class="clink-icon">📧</span> contact@automatewithleo.com</a>
+          <a href="https://wa.me/8801332059670" class="clink" target="_blank"><span class="clink-icon">💬</span> WhatsApp — Quick chat</a>
+          <a href="https://upwork.com/freelancers/morshed" class="clink" target="_blank"><span class="clink-icon">💼</span> Upwork Profile</a>
+          <a href="https://fiverr.com/morshed" class="clink" target="_blank"><span class="clink-icon">🟢</span> Fiverr Profile</a>
+        </div>
+      </div>
+
+      <!-- EDIT: Formspree setup — go to formspree.io, sign up with contact@automatewithleo.com (confirm exact domain),
+           create a new form, and replace YOUR_FORM_ID below with the ID Formspree gives you. -->
+      <form class="contact-form" id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="form-row">
+          <div class="form-group"><label>Your Name</label><input type="text" name="name" id="fname" placeholder="John Smith" required></div>
+          <div class="form-group"><label>Email Address</label><input type="email" name="email" id="femail" placeholder="john@company.com" required></div>
+        </div>
+        <div class="form-group">
+          <label>Service Needed</label>
+          <select name="service" id="fservice" required>
+            <option value="">Select a service...</option>
+            <option>AI Chatbot Building</option>
+            <option>Workflow Automation</option>
+            <option>Lead Generation System</option>
+            <option>Email Marketing Automation</option>
+            <option>CRM Integration</option>
+            <option>Data Scraping & Enrichment</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tell me about your project</label>
+          <textarea name="message" id="fmsg" placeholder="Describe what you want to automate, your current workflow, and any tools you're already using..." required></textarea>
+        </div>
+        <button type="submit" class="btn-submit" id="submitBtn">Send Message 🚀</button>
+        <div class="form-msg success" id="successMsg">✅ Message sent! I'll reply within 24 hours.</div>
+        <div class="form-msg error" id="errorMsg">⚠️ Something went wrong — please email contact@automatewithleo.com directly.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">leo<span>.</span>morshed — AI Automation Expert</div>
+  <div class="footer-copy">© 2026 Leo MorshEd. Based in Bangladesh 🇧🇩</div>
+</footer>
+
+<script>
+  // Custom cursor node
+  const cursor = document.getElementById('cursor-node');
+  window.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .faq-q, .tool-card, .service-card, .portfolio-card').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.width = '34px'; cursor.style.height = '34px'; });
+    el.addEventListener('mouseleave', () => { cursor.style.width = '18px'; cursor.style.height = '18px'; });
+  });
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Contact form -> Formspree (AJAX so we can show our own success message)
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const successMsg = document.getElementById('successMsg');
+  const errorMsg = document.getElementById('errorMsg');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    successMsg.style.display = 'none';
+    errorMsg.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        successMsg.style.display = 'block';
+        form.reset();
+      } else {
+        errorMsg.style.display = 'block';
+      }
+    } catch (err) {
+      errorMsg.style.display = 'block';
+    }
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send Message 🚀';
+  });
+</script>
+</body>
+</html>
